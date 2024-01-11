@@ -1,0 +1,23 @@
+{
+  "name": "vanguarda",
+  "version": "1.0.0",
+  "description": "Vanguarda admin bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gabrielnobregal/vanguarda.git"
+  },
+  "author": "Gabriel Nobrega de LIma",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gabrielnobregal/vanguarda/issues"
+  },
+  "homepage": "https://github.com/gabrielnobregal/vanguarda#readme",
+  "dependencies": {
+    "@whiskeysockets/baileys": "^6.5.0",
+    "qrcode-terminal": "^0.12.0"
+  }
+}
