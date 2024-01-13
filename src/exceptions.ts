@@ -1,0 +1,1 @@
+export class VanguardaException extends RangeError {}

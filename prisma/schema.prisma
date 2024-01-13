@@ -1,0 +1,86 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Players {
+  id    Int     @id @default(autoincrement())
+  name  String
+  type String //COMPETITIVE, CASUAL
+  nick String
+  phone BigInt @unique 
+  steamId String  @unique
+  email String?  @unique    
+  social_credits Float    
+  creation_date DateTime @default(now())
+  description String?
+  events Events[]
+  states PlayerStates[]  
+  event_notifications EventNotifications[]
+}
+
+model Events {
+  id    Int     @id @default(autoincrement())
+  name String
+    
+  description String?
+  discord_user_name String @default("") /// TEMOVER ESSE DEFAULT
+  start_date DateTime
+  end_date DateTime
+  checkin_limit_date DateTime
+
+  player_event_creation Players @relation(fields: [player_id], references: [id])
+  player_id Int     
+
+  event_notifications EventNotifications[]
+
+  player_reminder Boolean @default(false) // Alerta jogador ja registrado sobre o game e necessidade de checking 
+  creation_date DateTime @default(now())
+}
+
+model EventNotifications {
+  id    Int     @id @default(autoincrement())
+
+  event Events @relation(fields: [event_id], references: [id])
+  event_id Int
+
+  player Players @relation(fields: [player_id], references: [id])
+  player_id Int    
+  delivered_date DateTime?
+  viewed_date DateTime?
+  
+  player_response String? // ACCEPT, REJECT ou TENTATIVE
+
+  creation_date DateTime @default(now())  
+  
+}
+
+
+model PlayerStates {
+  id    Int     @id @default(autoincrement())
+  creation_date DateTime @default(now())
+  // Quem solicitou a mudanca de estado: pode ser o sistema por deteccao de inatividade, o proprio ou um adm
+  player Players  @relation(fields: [player_id], references: [id]) 
+  player_id Int
+
+  state String  // ATIVO, INATIVO, EXPULSO 
+  motive String?
+}
+
+
+// model PlayerRequests {
+//   id    Int     @id @default(autoincrement())
+//   player Players @relation(fields: [player_id], references: [id]) 
+//   player_id Int
+//   action String // ACCEPT, REJECT ou TENTATIVE
+// }
+
+
+
