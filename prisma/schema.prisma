@@ -53,8 +53,14 @@ model EventNotifications {
 
   player Players @relation(fields: [player_id], references: [id])
   player_id Int    
+
   delivered_date DateTime?
   viewed_date DateTime?
+
+  discarded Boolean @default(false)
+  discarded_reason String?
+
+  whatsappId String?
   
   player_response String? // ACCEPT, REJECT ou TENTATIVE
 

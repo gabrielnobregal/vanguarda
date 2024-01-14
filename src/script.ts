@@ -105,7 +105,30 @@ async function sendPendingNotifications() {
 
     const lastPlayerState = player.states[0]
 
-    if(lastPlayerState.motive == "ATIVO") {
+    // Somente eventos que nao foram descartados associados a players ativos
+    if(pf.discarded == false && lastPlayerState.motive == "ATIVO") {
+      
+      const currentDate = new Date()
+
+
+      if(currentDate >= fromEvent.checkin_limit_date) {
+        console.log(`Notificação de evento pendente não precisa mais ser enviado. Limite máximo para o check-in atingido. current_date_time=${currentDate}, check-in-limit=${fromEvent.checkin_limit_date}`)
+        
+        // Descarta o evento para que nao seja mais levado em consideracao        
+        await prisma.eventNotifications.update( {
+          where : {
+            id: pf.id
+          },
+          data: {
+            discarded : true,
+            discarded_reason : ""
+          }
+        })
+
+        return;
+      }
+
+
       // Envia mensagem para whatsapp
       const phone = player.phone
       
@@ -121,7 +144,21 @@ async function sendPendingNotifications() {
       })
 
     } else {
-      // Tem que marcar como nao e motivo INATIVO/EXPULSO pode ocorrer durante o meio tempo de um chamamento de jogo!!
+
+
+      if(lastPlayerState.motive != "ATIVO") {
+        await prisma.eventNotifications.update( {
+          where : {
+            id: pf.id
+          },
+          data: {
+            discarded : true,
+            discarded_reason : `Evento foi descartado porque o player ${player.nick} passou para o estado ${lastPlayerState.state} devido a  ${lastPlayerState.motive}`
+          }
+        })
+        
+      }
+      
     }
 
 
