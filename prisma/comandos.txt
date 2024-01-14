@@ -1,0 +1,128 @@
+--Migracao 
+npx prisma migrate dev --name init
+
+--Execucao de typescript
+npx ts-node-dev ./src/script.ts
+
+
+==Today
+
+-> Portar para typescript
+-> Criar modelo para suportar controle dos eventos
+-> Persistir interações
+-> Schedule para rodar e pegar os pendentes
+-> Importação da planilha para o BD
+-> Lembrar de ao enviar criar as atualizações de status "typing" para fazer com que 
+
+
+
+
+
+
+1- Enviar mensagem via whatsapp
+2- Receber mensagens 
+a) Precisa enviar imediatamente ao receber
+b) Posso receber ao conectar depois de ter ja recebido?
+3) Como usar heroko para hospedar o projeto
+4) Integrar com Discord
+
+
+---Criando projeto
+npm init
+npm typescript ts-node-dev @types/express -D
+npm install -g typescript
+tsc --init -> cria tsconfig.json
+
+
+
+
+
+alternativas para deploy
+
+https://fly.io/
+
+
+-- Bypass de erro ao tentar instalar pacote via npm:
+		npm ERR! code UNABLE_TO_GET_ISSUER_CERT_LOCALLY
+		npm ERR! errno UNABLE_TO_GET_ISSUER_CERT_LOCALLY
+
+npm config set strict-ssl false
+
+
+
+export NODE_TLS_REJECT_UNAUTHORIZED=0
+
+
+
+uppsert: {
+  "messages": [
+    {
+      "key": {
+        "remoteJid": "5511995020995@s.whatsapp.net",
+        "fromMe": false,
+        "id": "A399BF9DF9A42447C3C9FC41DC681207"
+      },
+      "messageTimestamp": 1704910388,
+      "pushName": "Gabriel",
+      "broadcast": false,
+      "message": {
+        "conversation": "Teste",
+        "messageContextInfo": {
+          "deviceListMetadata": {
+            "senderKeyHash": "nfXckYeFju3WBA==",
+            "senderTimestamp": "1704844907",
+            "recipientKeyHash": "cUMkTesqVBLFuA==",
+            "recipientTimestamp": "1704896655"
+          },
+          "deviceListMetadataVersion": 2
+        }
+      }
+    }
+  ],
+  "type": "notify"
+}
+
+==Deploy no vercel
+https://www.youtube.com/watch?v=FZiza5N6BQU
+
+postgresql://gabriel.nobrega.lima:x1WwtgRaJO5G@ep-crimson-river-86719167.us-east-1.aws.neon.tech/vanguarda?sslmode=require
+
+Modelagem
+
+=Players
+idt_player
+Nome
+Nick
+steamId
+num_social_credit
+
+
+=players_state
+idt_player
+dat_creation
+cod_description
+ind_state {ATIVO, INATIVO, BANNIDO, EXPULSO}
+dat_start
+dat_end
+
+=players_application
+idt_event
+idt_player
+description
+action{accept, refuse, talvez, inactive request(cria um player history)}
+
+
+
+=Events
+nam_event
+type {scrimm, competitive, treino}
+inicio
+mapa {}
+ind_victory
+clan_points
+enemy_points
+
+
+
+
+
