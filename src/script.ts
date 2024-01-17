@@ -6,7 +6,6 @@ import { VanguardaException } from './exceptions';
 const prisma = new PrismaClient()
 
 async function createEvent() {
-
   // Cria evento
   const event = await prisma.events.create({
       data: {
@@ -35,7 +34,7 @@ async function createEvent() {
 
     //Obtetendo os players que precisam ser notificados para este evento!
     for(var player of players) {
-      if(player.states[0].state == "EXPULSO") {          
+      if(player.states[0].state == "ATIVO") {          
         playersToNotify.push(player)
       }
     }
@@ -51,7 +50,7 @@ async function createEvent() {
   }
 
 
-
+  
     /*
     model EventNotifications {
   id    Int     @id @default(autoincrement())
@@ -72,6 +71,12 @@ async function createEvent() {
 
     //console.log(players)
 
+
+}
+
+
+
+function notificationViewed() {
 
 }
 
@@ -144,8 +149,6 @@ async function sendPendingNotifications() {
       })
 
     } else {
-
-
       if(lastPlayerState.motive != "ATIVO") {
         await prisma.eventNotifications.update( {
           where : {
@@ -155,18 +158,10 @@ async function sendPendingNotifications() {
             discarded : true,
             discarded_reason : `Evento foi descartado porque o player ${player.nick} passou para o estado ${lastPlayerState.state} devido a  ${lastPlayerState.motive}`
           }
-        })
-        
-      }
-      
+        })                
+      }      
     }
-
-
-
   }
-
-
-
 }
 
 /*
